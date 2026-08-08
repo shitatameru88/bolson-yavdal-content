@@ -1,0 +1,7 @@
+{
+  "_note": "Update gate config. Bump latest_version to your newest STORE-LIVE build to show older users a dismissable 'update available' popup. Set min_version ONLY for a forced (non-dismissable) update — a policy kill-switch — and never above your newest live version. Fail-open: a missing/bad file = no gate.",
+  "min_version": "0.0.0",
+  "latest_version": "1.1.0",
+  "android_url": "https://play.google.com/store/apps/details?id=mn.bolson.bolson_yavdal",
+  "ios_url": "https://apps.apple.com/app/id6782537722"
+}

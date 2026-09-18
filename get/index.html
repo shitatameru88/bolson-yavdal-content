@@ -5,30 +5,38 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sodonnews</title>
 <style>
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-       background:#0E0E12;color:#eaeaea;display:flex;min-height:100vh;
-       align-items:center;justify-content:center;text-align:center}
-  .box{padding:24px;max-width:340px}
-  a{color:#e2474d;font-weight:700;text-decoration:none}
-  .small{opacity:.7;font-size:14px;margin-top:16px}
+  html,body{margin:0;height:100%}
+  a.wrap{display:flex;min-height:100vh;flex-direction:column;
+         align-items:center;justify-content:center;text-align:center;
+         background:#0E0E12;color:#eaeaea;text-decoration:none;
+         font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+         padding:24px;-webkit-tap-highlight-color:transparent}
+  .ghost{font-size:56px;line-height:1;margin-bottom:20px}
+  .btn{background:#e2474d;color:#fff;font-weight:800;font-size:21px;
+       padding:16px 30px;border-radius:14px}
+  .sub{opacity:.7;font-size:15px;margin-top:20px}
 </style>
 </head>
 <body>
-  <div class="box">
-    <p>Sodonnews нээгдэж байна… 👻</p>
-    <p class="small"><a id="fallback"
-      href="https://play.google.com/store/apps/details?id=mn.bolson.bolson_yavdal">
-      Автоматаар нээгдэхгүй бол энд дарна уу</a></p>
-  </div>
+  <!-- The WHOLE page is a tap target: any tap navigates to the correct store,
+       which works even in webviews (Messenger) that block auto-redirects. -->
+  <a id="go" class="wrap"
+     href="https://play.google.com/store/apps/details?id=mn.bolson.bolson_yavdal">
+    <div class="ghost">👻</div>
+    <div class="btn">📲 Sodonnews нээх</div>
+    <div class="sub">Дэлгэц дээр дарна уу</div>
+  </a>
 <script>
 (function () {
   var play = "https://play.google.com/store/apps/details?id=mn.bolson.bolson_yavdal";
   var ios  = "https://apps.apple.com/app/id6782537722";
   var ua = (navigator.userAgent || "").toLowerCase();
   var dest = /iphone|ipad|ipod/.test(ua) ? ios : play; // Android + desktop -> Play
-  var fb = document.getElementById("fallback");
-  if (fb) fb.href = dest;         // make the manual link match the device too
-  location.replace(dest);         // instant auto-redirect
+  var go = document.getElementById("go");
+  if (go) go.href = dest;                    // whole-page tap -> correct store
+  try { window.location.replace(dest); } catch (e) {}  // auto-redirect (FB app)
+  // Belt-and-suspenders for restrictive webviews: first tap anywhere navigates.
+  document.addEventListener("click", function () { window.location.href = dest; }, { once: true });
 })();
 </script>
 </body>
